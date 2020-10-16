@@ -11,6 +11,8 @@ else{
 // For adding post  
 if(isset($_POST['submit']))
 {
+$event=$_POST['event'];
+
 $posttitle=$_POST['posttitle'];
 $catid=$_POST['category'];
 $subcatid=$_POST['subcategory'];
@@ -53,7 +55,7 @@ move_uploaded_file($_FILES["postdocument"]["tmp_name"],"postdocuments/".$docnewf
 
 
 $status=1;
-$query=mysqli_query($con,"insert into tblposts(PostTitle,CategoryId,SubCategoryId,PostDetails,PostUrl,Is_Active,PostImage,PostDocument) values('$posttitle','$catid','$subcatid','$postdetails','$url','$status','$imgnewfile','$docnewfile')");
+$query=mysqli_query($con,"insert into tblposts(PostTitle,CategoryId,SubCategoryId,PostDetails,PostUrl,Is_Active,PostImage,PostDocument,eventdate) values('$posttitle','$catid','$subcatid','$postdetails','$url','$status','$imgnewfile','$docnewfile','$event')");
 if($query)
 {
 $msg="Post successfully added ";
@@ -68,6 +70,7 @@ $error="Something went wrong . Please try again.";
 <!DOCTYPE html>
 <html lang="en">
     <head>
+	
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc.">
@@ -108,6 +111,17 @@ function getSubCat(val) {
     $("#subcategory").html(data);
   }
   });
+  if (document.getElementById("category").value == '5')
+
+ {       
+  document.getElementById("event").disabled = false;
+
+ } else { 
+
+         document.getElementById("event").disabled = true;
+ }
+
+
   }
   </script>
     </head>
@@ -211,6 +225,16 @@ while($result=mysqli_fetch_array($ret))
 </select> 
 </div>
          
+<div class="row">
+<div class="col-sm-12">
+ <div class="card-box">
+ <h4 class="m-b-30 m-t-0 header-title"><b>Event Date</b></h4>
+
+	<input type="date" id="event" name="event" disabled="true">
+</div>
+</div>
+</div>
+
 
 <div class="row">
 <div class="col-sm-12">

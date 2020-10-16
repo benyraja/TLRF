@@ -35,22 +35,21 @@ endif;
 
   <head>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>TLRF Portal | Home Page</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="css/modern-business.css" rel="stylesheet">
+<title>TamilNadu LRF</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" type="text/css" href="assets/font/font-awesome.min.css" />
+<link rel="stylesheet" type="text/css" href="assets/font/font.css" />
+<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="assets/css/style.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="assets/css/responsive.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="assets/css/jquery.bxslider.css" media="screen" />
 
   </head>
 
   <body>
+<div class="body_wrapper">
+  <div class="center">
 
     <!-- Navigation -->
    <?php include('includes/header.php');?>
@@ -75,16 +74,16 @@ while ($row=mysqli_fetch_array($query)) {
           <div class="card mb-4">
       
             <div class="card-body">
-              <h2 class="card-title"><?php echo htmlentities($row['posttitle']);?></h2>
+             <b> <h2 class="card-title"><?php echo htmlentities($row['posttitle']);?></h2></b>
               <p><b>Category : </b> <a href="category.php?catid=<?php echo htmlentities($row['cid'])?>"><?php echo htmlentities($row['category']);?></a> |
                 <b>Sub Category : </b><?php echo htmlentities($row['subcategory']);?> <b> Posted on </b><?php echo htmlentities($row['postingdate']);?></p>
                 <hr />
 
  <img class="img-fluid rounded" src="admin/postimages/<?php echo htmlentities($row['PostImage']);?>" alt="<?php echo htmlentities($row['posttitle']);?>">
   
-              <p class="card-text"><?php 
+             <h5> <p><?php 
 $pt=$row['postdetails'];
-              echo  (substr($pt,0));?></p>
+              echo  (substr($pt,0));?></p></h5>
              
             </div>
             <div class="card-footer text-muted">
@@ -102,7 +101,8 @@ $pt=$row['postdetails'];
         </div>
 
         <!-- Sidebar Widgets Column -->
-      <?php include('includes/sidebar.php');?>
+		       <?php include('includes/sidebar.php');?>
+
       </div>
       <!-- /.row -->
 <!---Comment Section --->
@@ -155,7 +155,8 @@ while ($row=mysqli_fetch_array($query)) {
 
   
       <?php include('includes/footer.php');?>
-
+</div>
+</div>
 
     <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>
