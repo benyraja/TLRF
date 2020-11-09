@@ -67,7 +67,7 @@ endif;
           <!-- Blog Post -->
 <?php
 $pid=intval($_GET['nid']);
- $query=mysqli_query($con,"select tblposts.PostTitle as posttitle,tblposts.PostImage,tblcategory.CategoryName as category,tblcategory.id as cid,tblsubcategory.Subcategory as subcategory,tblposts.PostDetails as postdetails,tblposts.PostingDate as postingdate,tblposts.PostUrl as url from tblposts left join tblcategory on tblcategory.id=tblposts.CategoryId left join  tblsubcategory on  tblsubcategory.SubCategoryId=tblposts.SubCategoryId where tblposts.id='$pid'");
+ $query=mysqli_query($con,"select tblposts.PostTitle as posttitle,tblposts.PostImage,tblposts.PostDocument,tblposts.PostAudio,tblposts.PostVideo,tblcategory.CategoryName as category,tblcategory.id as cid,tblsubcategory.Subcategory as subcategory,tblposts.PostDetails as postdetails,tblposts.PostingDate as postingdate,tblposts.PostUrl as url from tblposts left join tblcategory on tblcategory.id=tblposts.CategoryId left join  tblsubcategory on  tblsubcategory.SubCategoryId=tblposts.SubCategoryId where tblposts.id='$pid'");
 while ($row=mysqli_fetch_array($query)) {
 ?>
 
@@ -84,6 +84,32 @@ while ($row=mysqli_fetch_array($query)) {
              <h5> <p><?php 
 $pt=$row['postdetails'];
               echo  (substr($pt,0));?></p></h5>
+			  
+			 <?php if($row['PostDocument'] != NULL)
+			 {
+			  ?>
+			  <p><b>   <h2 class="title">TLRF Document :</h2><br>
+
+			  <iframe src="admin/postdocuments/<?php echo htmlentities($row['PostDocument']);?>" width="300"/></iframe></p>
+
+<?php } ?>
+ <?php if($row['PostAudio'] != NULL)
+			 {
+			  ?>
+			
+		 <p><b>	  <h2 class="title">TLRF Audio :</h2><br> <audio controls="controls" src="admin/postaudio/<?php echo htmlentities($row['PostAudio']);?>"></b>
+
+      </audio>
+	  <?php } ?>
+ <?php if($row['PostVideo'] != NULL)
+			 {
+			  ?>
+
+	  <p><b>   <h2 class="title">TLRF Video :</h2><br><video src = "admin/postvideo/<?php echo htmlentities($row['PostVideo']);?>"  width = "300" height = "200" controls></p>
+</video>
+	  <?php } ?>
+
+
              
             </div>
             <div class="card-footer text-muted">
@@ -101,16 +127,14 @@ $pt=$row['postdetails'];
         </div>
 
         <!-- Sidebar Widgets Column -->
-		       <?php include('includes/sidebar.php');?>
 
-      </div>
+</div>
       <!-- /.row -->
 <!---Comment Section --->
-
- <div class="row" style="margin-top: -8%">
+ <div class="row" style="margin-top: 10%">
    <div class="col-md-8">
 <div class="card my-4">
-            <h5 class="card-header">Leave a Comment:</h5>
+            <h5 class="card-header"><b>Leave a Comment:</b></h5>
             <div class="card-body">
               <form name="Comment" method="post">
       <input type="hidden" name="csrftoken" value="<?php echo htmlentities($_SESSION['token']); ?>" />
@@ -153,7 +177,6 @@ while ($row=mysqli_fetch_array($query)) {
       </div>
     </div>
 
-  
       <?php include('includes/footer.php');?>
 </div>
 </div>

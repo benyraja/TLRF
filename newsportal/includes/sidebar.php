@@ -2,9 +2,9 @@
         <div class="single_sidebar"> <img src="images/add1.png" alt="" /> </div>
         <div class="single_sidebar">
           <div class="news-letter">
-            <h2>Sign Up for Newsletter</h2>
-            <p>Sign up to receive our free newsletters!</p>
-            <form action="#" method="post">
+            <h2>Sign Up for TLRF Newsletter</h2>
+            <p>Sign up to receive our free TLRF newsletters!</p>
+            <form action="subscribe.php" method="post">
               <input type="text" value="Name" id="name" />
               <input type="text" value="Email Address" id="email" />
               <input type="submit" value="SUBMIT" id="form-submit" />
@@ -32,7 +32,6 @@ while ($rowside=mysqli_fetch_array($queryside)) {
 			              <?php } ?>
 
             </ul>
-            <a class="popular_more">more</a> </div>
         </div>
         <div class="single_sidebar"> <img src="images/add1.png" alt="" /> </div>
         <div class="single_sidebar">

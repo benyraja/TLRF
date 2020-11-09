@@ -42,6 +42,9 @@ include('includes/config.php');
 $_SESSION['catid']=intval($_GET['catid']);
 }
              
+  elseif($_GET['subcatid']!=''){
+$_SESSION['subcatid']=intval($_GET['subcatid']);
+}
 
 
 
@@ -62,9 +65,13 @@ $_SESSION['catid']=intval($_GET['catid']);
         $total_rows = mysqli_fetch_array($result)[0];
         $total_pages = ceil($total_rows / $no_of_records_per_page);
 
-
+if(isset($_SESSION['catid']))
+{
 $query=mysqli_query($con,"select tblposts.id as pid,tblposts.PostTitle as posttitle,tblposts.PostImage,tblcategory.CategoryName as category,tblsubcategory.Subcategory as subcategory,tblposts.PostDetails as postdetails,tblposts.PostingDate as postingdate,tblposts.PostUrl as url from tblposts left join tblcategory on tblcategory.id=tblposts.CategoryId left join  tblsubcategory on  tblsubcategory.SubCategoryId=tblposts.SubCategoryId where tblposts.CategoryId='".$_SESSION['catid']."' and tblposts.Is_Active=1 order by tblposts.id desc LIMIT $offset, $no_of_records_per_page");
-
+}
+elseif (isset($_SESSION['subcatid'])){
+$query=mysqli_query($con,"select tblposts.id as pid,tblposts.PostTitle as posttitle,tblposts.PostImage,tblcategory.CategoryName as category,tblsubcategory.Subcategory as subcategory,tblposts.PostDetails as postdetails,tblposts.PostingDate as postingdate,tblposts.PostUrl as url from tblposts left join tblcategory on tblcategory.id=tblposts.CategoryId left join  tblsubcategory on  tblsubcategory.SubCategoryId=tblposts.SubCategoryId where tblposts.SubCategoryId='".$_SESSION['subcatid']."' and tblposts.Is_Active=1 order by tblposts.id desc LIMIT $offset, $no_of_records_per_page");
+}
 $rowcount=mysqli_num_rows($query);
 if($rowcount==0)
 {
@@ -92,7 +99,10 @@ while ($row=mysqli_fetch_array($query)) {
           </div>
 		              <h2 class="title"></h2>
 
-<?php } ?>
+<?php    unset($_SESSION['catid']);
+   unset($_SESSION['subcatid']);
+
+} ?>
 
     <ul class="pagination justify-content-center mb-4">
         <li class="page-item"><a href="?pageno=1"  class="page-link">First</a></li>

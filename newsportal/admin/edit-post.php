@@ -75,7 +75,22 @@ function getSubCat(val) {
   });
     if (document.getElementById("category").value == '5')
 
- {       
+ {   
+  document.getElementById("event").disabled = false;
+
+ } else { 
+
+         document.getElementById("event").disabled = true;
+ }
+
+  }
+  
+  function getEvent(val)
+  {
+	  alert(document.getElementById("category").value);
+	      if (document.getElementById("category").value == '5')
+
+ {   
   document.getElementById("event").disabled = false;
 
  } else { 
@@ -152,7 +167,7 @@ function getSubCat(val) {
 
 <?php
 $postid=intval($_GET['pid']);
-$query=mysqli_query($con,"select tblposts.id as postid,tblposts.PostImage,tblposts.PostTitle as title,tblposts.PostDetails,tblposts.eventdate as eventdate,tblcategory.CategoryName as category,tblcategory.id as catid,tblsubcategory.SubCategoryId as subcatid,tblsubcategory.Subcategory as subcategory from tblposts left join tblcategory on tblcategory.id=tblposts.CategoryId left join tblsubcategory on tblsubcategory.SubCategoryId=tblposts.SubCategoryId where tblposts.id='$postid' and tblposts.Is_Active=1 ");
+$query=mysqli_query($con,"select tblposts.id as postid,tblposts.PostImage,tblposts.PostDocument,tblposts.PostAudio,tblposts.PostVideo,tblposts.PostTitle as title,tblposts.PostDetails,tblposts.eventdate as eventdate,tblcategory.CategoryName as category,tblcategory.id as catid,tblsubcategory.SubCategoryId as subcatid,tblsubcategory.Subcategory as subcategory from tblposts left join tblcategory on tblcategory.id=tblposts.CategoryId left join tblsubcategory on tblsubcategory.SubCategoryId=tblposts.SubCategoryId where tblposts.id='$postid' and tblposts.Is_Active=1 ");
 while($row=mysqli_fetch_array($query))
 {
 ?>
@@ -160,7 +175,7 @@ while($row=mysqli_fetch_array($query))
                             <div class="col-md-10 col-md-offset-1">
                                 <div class="p-6">
                                     <div class="">
-                                        <form name="addpost" method="post">
+                                        <form name="addpost" method="post" >
  <div class="form-group m-b-20">
 <label for="exampleInputEmail1">Post Title</label>
 <input type="text" class="form-control" id="posttitle" value="<?php echo htmlentities($row['title']);?>" name="posttitle" placeholder="Enter title" required>
@@ -196,7 +211,7 @@ while($result=mysqli_fetch_array($ret))
  <div class="card-box">
  <h4 class="m-b-30 m-t-0 header-title"><b>Event Date</b></h4>
 
-	<input type="date" value="<?php echo date('Y-m-d',strtotime($row["eventdate"])) ?>" id="event" name="event" >
+	<input type="date" value="<?php echo date('Y-m-d',strtotime($row["eventdate"])) ?>" id="event" name="event"  disabled>
 </div>
 </div>
 </div>
@@ -229,7 +244,33 @@ while($result=mysqli_fetch_array($ret))
 <h4 class="m-b-30 m-t-0 header-title"><b>Post Document</b></h4>
 <iframe src="postdocuments/<?php echo htmlentities($row['PostDocument']);?>" width="300"/></iframe>
 <br />
-<a href="change-document.php?pid=<?php echo htmlentities($row['postdocid']);?>">Update Document</a>
+<a href="change-document.php?pid=<?php echo htmlentities($row['postid']);?>">Update Document</a>
+</div>
+</div>
+</div>
+
+ <div class="row">
+<div class="col-sm-12">
+ <div class="card-box">
+<h4 class="m-b-30 m-t-0 header-title"><b>Post Audio</b></h4>
+<audio controls="controls" src="postaudio/<?php echo htmlentities($row['PostAudio']);?>">
+
+      </audio>
+
+<br />
+<a href="change-audio.php?pid=<?php echo htmlentities($row['postid']);?>">Update Audio</a>
+</div>
+</div>
+</div>
+
+ <div class="row">
+<div class="col-sm-12">
+ <div class="card-box">
+<h4 class="m-b-30 m-t-0 header-title"><b>Post Video</b></h4>
+<video src = "postvideo/<?php echo htmlentities($row['PostVideo']);?>"  width = "300" height = "200" controls>
+</video>
+<br />
+<a href="change-video.php?pid=<?php echo htmlentities($row['postid']);?>">Update Video</a>
 </div>
 </div>
 </div>

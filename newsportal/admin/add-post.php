@@ -19,43 +19,128 @@ $subcatid=$_POST['subcategory'];
 $postdetails=$_POST['postdescription'];
 $arr = explode(" ",$posttitle);
 $url=implode("-",$arr);
+if($_FILES["postimage"]["name"] != ''){
 $imgfile=$_FILES["postimage"]["name"];
 // get the image extension
 $extension = substr($imgfile,strlen($imgfile)-4,strlen($imgfile));
 // allowed extensions
 $allowed_extensions = array(".jpg",".jpeg",".png",".gif");
 // Validation for allowed extensions .in_array() function searches an array for a specific value.
+}
+if($_FILES["postdocument"]["name"] != ''){
+
 $docfile=$_FILES["postdocument"]["name"];
 // get the document extension
 $extensiondoc = substr($docfile,strlen($docfile)-4,strlen($docfile));
 // allowed extensions
 $allowed_extensionsdoc = array(".doc",".pdf",".docx");
 // Validation for allowed extensions .in_array() function searches an array for a specific value.
+}
+
+if($_FILES["postaudio"]["name"] != ''){
+
+$audiofile=$_FILES["postaudio"]["name"];
+// get the audio extension
+$extensionaudio = substr($audiofile,strlen($audiofile)-4,strlen($audiofile));
+// allowed extensions
+$allowed_extensionsaudio = array(".mp3",".wma",".wav",".aac");
+// Validation for allowed extensions .in_array() function searches an array for a specific value.
+}
+if($_FILES["postvideo"]["name"] != ''){
+
+$videofile=$_FILES["postvideo"]["name"];
+// get the video extension
+$extensionvideo = substr($videofile,strlen($videofile)-4,strlen($videofile));
+// allowed extensions
+$allowed_extensionsvideo = array(".mp4",".avi",".3gp",".mov");
+// Validation for allowed extensions .in_array() function searches an array for a specific value.
+}
+       $maxsize = 5242880; // 5MB
+if($_FILES["postvideo"]["name"] != ''){
+
+if(!in_array($extensionvideo,$allowed_extensionsvideo))
+{
+echo "<script>alert('Invalid format. Only mp4 / avi / 3gp / mov formats are allowed');</script>";
+}
+else if(($_FILES['postvideo']['size'] >= $maxsize) || ($_FILES["postvideo"]["size"] == 0)) {
+            echo "File too large. File must be less than 5MB.";
+}
+
+} else
+if($_FILES["postaudio"]["name"] != ''){
+
+
+if(!in_array($extensionaudio,$allowed_extensionsaudio))
+{
+echo "<script>alert('Invalid format. Only mp3 / wma / wav /aac formats are allowed');</script>";
+}
+else if(($_FILES['postaudio']['size'] >= $maxsize) || ($_FILES["postaudio"]["size"] == 0)) {
+            echo "File too large. File must be less than 5MB.";
+}
+
+} else
+if($_FILES["postdocument"]["name"] != ''){
+
 if(!in_array($extensiondoc,$allowed_extensionsdoc))
 {
 echo "<script>alert('Invalid format. Only pdf / doc / docx formats are allowed');</script>";
 }
 
-else if(!in_array($extension,$allowed_extensions))
+} else
+if($_FILES["postimage"]["name"] != ''){
+ if(!in_array($extension,$allowed_extensions))
 {
 echo "<script>alert('Invalid format. Only jpg / jpeg/ png /gif format allowed');</script>";
 }
+}
 else
 {
-//rename the image file
+	if($_FILES["postimage"]["name"] != ''){
+		
+		//rename the document file
 $imgnewfile=md5($imgfile).$extension;
-// Code for move image into directory
+// Code for move document into directory
 move_uploaded_file($_FILES["postimage"]["tmp_name"],"postimages/".$imgnewfile);
+
+	}
+	else {
+		$imgnewfile = NULL;
+	}
+	if($_FILES["postdocument"]["name"] != ''){
 
 //rename the document file
 $docnewfile=md5($docfile).$extensiondoc;
 // Code for move document into directory
 move_uploaded_file($_FILES["postdocument"]["tmp_name"],"postdocuments/".$docnewfile);
+}
+	else {
+		$docnewfile = NULL;
+	}
+	if($_FILES["postaudio"]["name"] != ''){
 
+//rename the audio file
+$audionewfile=md5($audiofile).$extensionaudio;
+// Code for move audio into directory
+move_uploaded_file($_FILES["postaudio"]["tmp_name"],"postaudio/".$audionewfile);
+}
+	else {
+		$audionewfile = NULL;
+	}
+	if($_FILES["postvideo"]["name"] != ''){
+
+
+//rename the video file
+$videonewfile=md5($videofile).$extensionvideo;
+// Code for move audio into directory
+move_uploaded_file($_FILES["postvideo"]["tmp_name"],"postvideo/".$videonewfile);
+}
+	else {
+		$videonewfile = NULL;
+	}
 
 
 $status=1;
-$query=mysqli_query($con,"insert into tblposts(PostTitle,CategoryId,SubCategoryId,PostDetails,PostUrl,Is_Active,PostImage,PostDocument,eventdate) values('$posttitle','$catid','$subcatid','$postdetails','$url','$status','$imgnewfile','$docnewfile','$event')");
+$query=mysqli_query($con,"insert into tblposts(PostTitle,CategoryId,SubCategoryId,PostDetails,PostUrl,Is_Active,PostImage,PostDocument,eventdate,PostAudio,PostVideo) values('$posttitle','$catid','$subcatid','$postdetails','$url','$status','$imgnewfile','$docnewfile','$event','$audionewfile','$videonewfile')");
 if($query)
 {
 $msg="Post successfully added ";
@@ -65,6 +150,16 @@ $error="Something went wrong . Please try again.";
 } 
 
 }
+}
+function imageResize($imageSrc,$imageWidth,$imageHeight) {
+
+    $newImageWidth =980;
+    $newImageHeight =350;
+
+    $newImageLayer=imagecreatetruecolor($newImageWidth,$newImageHeight);
+    imagecopyresampled($newImageLayer,$imageSrc,0,0,0,0,$newImageWidth,$newImageHeight,$imageWidth,$imageHeight);
+
+    return $newImageLayer;
 }
 ?>
 <!DOCTYPE html>
@@ -263,6 +358,26 @@ while($result=mysqli_fetch_array($ret))
 </div>
 </div>
 </div>
+
+<div class="row">
+<div class="col-sm-12">
+ <div class="card-box">
+<h4 class="m-b-30 m-t-0 header-title"><b>Post Audio</b></h4>
+<input type="file" class="form-control" id="postaudio" name="postaudio">
+</div>
+</div>
+</div>
+
+
+<div class="row">
+<div class="col-sm-12">
+ <div class="card-box">
+<h4 class="m-b-30 m-t-0 header-title"><b>Post Video</b></h4>
+<input type="file" class="form-control" id="postvideo" name="postvideo">
+</div>
+</div>
+</div>
+
 
 
 <button type="submit" name="submit" class="btn btn-success waves-effect waves-light">Save and Post</button>

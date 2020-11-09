@@ -44,7 +44,7 @@
 							?>
 
 							<li> 
-								<a href="subcategory.php?catid=<?php echo htmlentities($rowsub['SubCategoryId'])?>"><?php echo htmlentities($rowsub['SubCategory']);?></a>
+								<a href="category.php?subcatid=<?php echo htmlentities($rowsub['SubCategoryId'])?>"><?php echo htmlentities($rowsub['SubCategory']);?></a>
 							</li>
           				<?php } ?>
 
