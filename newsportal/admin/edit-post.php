@@ -87,7 +87,6 @@ function getSubCat(val) {
   
   function getEvent(val)
   {
-	  alert(document.getElementById("category").value);
 	      if (document.getElementById("category").value == '5')
 
  {   
@@ -103,7 +102,7 @@ function getSubCat(val) {
     </head>
 
 
-    <body class="fixed-left">
+    <body class="fixed-left" onload="getEvent()">
 
         <!-- Begin page -->
         <div id="wrapper">

@@ -32,11 +32,17 @@ include('includes/config.php');
 
 
 $query=mysqli_query($con,"select tblposts.id as pid,tblposts.PostTitle as posttitle,tblposts.PostImage,tblcategory.CategoryName as category,tblcategory.id as cid,tblsubcategory.Subcategory as subcategory,tblposts.PostUrl as url from tblposts left join tblcategory on tblcategory.id=tblposts.CategoryId left join  tblsubcategory on  tblsubcategory.SubCategoryId=tblposts.SubCategoryId where tblposts.eventdate > CURRENT_TIMESTAMP and tblposts.Is_Active=1 and tblposts.CategoryId=5 order by tblposts.eventdate asc  LIMIT 3");
+if(mysqli_num_rows($query)== 0){ ?>
+          <li><img src="img/post-single-1.jpg" alt="welcome" title="welcome"  /></li>
+<?php }
+else{
+
 while ($row=mysqli_fetch_array($query)) {
 ?>
 
           <li><img src="admin/postimages/<?php echo htmlentities($row['PostImage']);?>" alt="<?php echo htmlentities($row['posttitle']);?>" title="<?php echo htmlentities($row['posttitle']);?>"  /></li>
-		  <?php } ?>
+		  <?php } 
+} ?>
           </ul>
       </div>
     </div>
